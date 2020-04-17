@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand.Player
+namespace LemonadeStand.PlayerItems
 {
     class Recipe
     {

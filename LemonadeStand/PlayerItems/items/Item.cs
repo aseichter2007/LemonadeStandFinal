@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand_3DayStarter
+namespace LemonadeStand.PlayerItems.items
 {
     abstract class Item
     {
@@ -14,7 +14,7 @@ namespace LemonadeStand_3DayStarter
         // constructor (SPAWNER)
         static Item()
         {
-            
+
         }
 
         // member methods (CAN DO)

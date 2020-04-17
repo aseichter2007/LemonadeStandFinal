@@ -1,13 +1,13 @@
-﻿using System;
+﻿using LemonadeStand_3DayStarter.Customer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand.PlayerItems
+namespace LemonadeStand.Customers
 {
-    class Pitcher
+    class Cop : Customer
     {
-        public int cupsLeftInPitcher;
     }
 }

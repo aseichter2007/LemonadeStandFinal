@@ -1,10 +1,11 @@
-﻿using System;
+﻿using LemonadeStand.PlayerItems.items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand_3DayStarter
+namespace LemonadeStand.PlayerItems
 {
     class Inventory
     {
@@ -26,7 +27,7 @@ namespace LemonadeStand_3DayStarter
         // member methods (CAN DO)
         public void AddLemonsToInventory(int numberOfLemons)
         {
-            for(int i = 0; i < numberOfLemons; i++)
+            for (int i = 0; i < numberOfLemons; i++)
             {
                 Lemon lemon = new Lemon();
                 lemons.Add(lemon);
@@ -35,7 +36,7 @@ namespace LemonadeStand_3DayStarter
 
         public void AddSugarCubesToInventory(int numberOfSugarCubes)
         {
-            for(int i = 0; i < numberOfSugarCubes; i++)
+            for (int i = 0; i < numberOfSugarCubes; i++)
             {
                 SugarCube sugarCube = new SugarCube();
                 sugarCubes.Add(sugarCube);
@@ -44,7 +45,7 @@ namespace LemonadeStand_3DayStarter
 
         public void AddIceCubesToInventory(int numberOfIceCubes)
         {
-            for(int i = 0; i < numberOfIceCubes; i++)
+            for (int i = 0; i < numberOfIceCubes; i++)
             {
                 IceCube iceCube = new IceCube();
                 iceCubes.Add(iceCube);
@@ -53,7 +54,7 @@ namespace LemonadeStand_3DayStarter
 
         public void AddCupsToInventory(int numberOfCups)
         {
-            for(int i = 0; i < numberOfCups; i++)
+            for (int i = 0; i < numberOfCups; i++)
             {
                 Cup cup = new Cup();
                 cups.Add(cup);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand_3DayStarter
+namespace LemonadeStand
 {
     static class UserInterface
     {
@@ -18,7 +18,7 @@ namespace LemonadeStand_3DayStarter
                 Console.WriteLine("How many " + itemsToGet + " would you like to buy?");
                 Console.WriteLine("Please enter a positive integer (or 0 to cancel):");
 
-                userInputIsAnInteger = Int32.TryParse(Console.ReadLine(), out quantityOfItem);
+                userInputIsAnInteger = int.TryParse(Console.ReadLine(), out quantityOfItem);
             }
 
             return quantityOfItem;
