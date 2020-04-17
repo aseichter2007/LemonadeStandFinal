@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E9A68318-3739-49EE-B569-F5DDFAB071F7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>LemonadeStand_3DayStarter</RootNamespace>
-    <AssemblyName>LemonadeStand_3DayStarter</AssemblyName>
+    <RootNamespace>LemonadeStand</RootNamespace>
+    <AssemblyName>LemonadeStand</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,21 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cup.cs" />
-    <Compile Include="IceCube.cs" />
-    <Compile Include="Inventory.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="Lemon.cs" />
+    <Compile Include="Customer\Customer.cs" />
+    <Compile Include="DaysandWeather\Day.cs" />
+    <Compile Include="DaysandWeather\Weather.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="PlayerItems\items\Cup.cs" />
+    <Compile Include="PlayerItems\items\IceCube.cs" />
+    <Compile Include="PlayerItems\Inventory.cs" />
+    <Compile Include="PlayerItems\items\Item.cs" />
+    <Compile Include="PlayerItems\items\Lemon.cs" />
+    <Compile Include="PlayerItems\Pitcher.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerItems\Recipe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store.cs" />
-    <Compile Include="SugarCube.cs" />
+    <Compile Include="PlayerItems\items\SugarCube.cs" />
     <Compile Include="UserInterface.cs" />
-    <Compile Include="Wallet.cs" />
+    <Compile Include="PlayerItems\Wallet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
