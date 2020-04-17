@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
-    class Thief 
+    class Duck
     {
-        public Thief(Random random)
+        public Duck()
         {
 
         }

@@ -12,9 +12,18 @@ namespace LemonadeStand
         Player player;
         List<Day> days;
         int currentDay;
+        Random random;
+        int difficulty;
         public Game()
         {
-            player = new Player();
+            difficulty = 1;
+            random = new Random();
+            GenerateDays(random, 1);
+        }
+        void GenerateDays(Random random, int difficulty)
+        {
+            Day day = new Day(random, difficulty);
+
         }
     }
 }
