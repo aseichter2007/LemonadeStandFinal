@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
-    class Thief 
+    class Thief : Customer
     {
-        public Thief(Random random)
+        public Thief(Random random):base(random)
         {
-
+            type = "theif";
         }
     }
 }

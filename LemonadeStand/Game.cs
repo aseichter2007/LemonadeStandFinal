@@ -14,16 +14,28 @@ namespace LemonadeStand
         int currentDay;
         Random random;
         int difficulty;
+        int duration=7;
         public Game()
         {
-            difficulty = 1;
+            days = new List<Day>();
+            difficulty=3;
             random = new Random();
-            GenerateDays(random, 1);
+            GenerateDays(random, difficulty,duration);
         }
-        void GenerateDays(Random random, int difficulty)
+        void GenerateDays(Random random, int difficulty, int duration)
         {
-            Day day = new Day(random, difficulty);
+            for (int i = 0; i < duration+1; i++)
+            {
+                Day day = new Day(random, difficulty);
+                days.Add(day);
+            }
 
+        }
+        int InputCheck(string input)
+        {
+            int output=0;
+
+            return output;
         }
     }
 }

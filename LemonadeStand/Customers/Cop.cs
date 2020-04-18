@@ -8,15 +8,13 @@ namespace LemonadeStand.Customers
 {
     class Cop : Customer
     {
-        string name;
-        List<string> copnames;
-        public Cop(Random random)
+        public Cop(Random random):base(random)
         {
-            name = GetName(random);
+            type = "cop:";
         }
         public override string GetName(Random random)
         {
-            string output = copnames[random.Next(0, copnames.Count - 1)];
+            string output = copnames[random.Next(1, copnames.Count-1)];
             return output;
         }
     }

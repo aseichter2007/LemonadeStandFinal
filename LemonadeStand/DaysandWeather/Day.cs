@@ -28,27 +28,26 @@ namespace LemonadeStand.DaysandWeather
                 customergen = random.Next(0, 100);
                 if (customergen > 0 && customergen < 6)
                 {
-                    // customer = new Thief(random);
+                    customer = new Thief(random);
                 }
                 else if (customergen > 6 && customergen < 12)
                 {
-                    // customer = new Cop(random);
+                    customer = new Cop(random);
                 }
                 else if (customergen == 0)
                 {
-                    //customer = new Duck(random);
+                   customer = new Duck(random);
                 }
                 else
                 {
                     customer = new Customer(random);
                 }
+                customers.Add(customer);
             }
-            customers.Add(customer);
-            
         }
         int GetCount(Random random,int difficulty)
         {
-            int output = random.Next(2, 10) * difficulty;
+            int output = random.Next(3, 10) * difficulty;
             return output;
         }
     }

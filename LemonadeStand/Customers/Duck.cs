@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
-    class Duck
+    class Duck:Customer
     {
-        public Duck()
+        public Duck(Random random):base(random)
         {
-
+            name = "steve";
+            type = "duck";
         }
     }
 }

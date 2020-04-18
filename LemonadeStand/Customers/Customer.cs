@@ -9,15 +9,24 @@ namespace LemonadeStand.Customers
         class Customer
     {
         List<string> names;
+        //copnames is here because it cant instantiate in the cop child and GetName() proper like.
+        public List<string> copnames;
         public string name;
         public int thirst;
         public int sweettooth;
+        public Random random;
+        public string type;
         public   Customer(Random random)
         {
-            names = new List<string>() { "","" };
+            this.random = random;
+            names = new List<string>() { "Michael Terrill","Michael Heinisch","Brett Johnson", "Charles King","David Legrange","nevin Seibel" };
+            copnames = new List<string>() { "Officer Dick", "Officer Tom","Officer Cop","Officer Dan" };
+
             sweettooth = GetSweet(random);
             thirst = GetThirst(random);
             name = GetName(random);
+            type = "customer";
+            
         }
         int GetSweet(Random random)
         {
