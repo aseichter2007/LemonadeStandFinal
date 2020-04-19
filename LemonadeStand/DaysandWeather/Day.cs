@@ -11,10 +11,15 @@ namespace LemonadeStand.DaysandWeather
     {
         public Weather weather;
         public List<Customer> customers;
+        public List<string[]> forecast;
+
         int hour;
         int count;
+
         public Day(Random random,int difficulty)
         {
+            weather = new Weather(random);
+            forecast = new List<string[]>();
             customers = new List<Customer>();
             count = GetCount(random,difficulty);
             GetCustomers(random,count);

@@ -37,5 +37,80 @@ namespace LemonadeStand.DaysandWeather
             }
             return temp;
         }
+        public void GetForecast(List<Day> days, Random random)
+        {
+
+            for (int i = 0; i < days.Count; i++)
+            {
+                if (i+7 < days.Count)
+                {
+                    for (int j = i; j < i + 7; j++)
+                    {
+
+                        string doppler = days[j].weather.condition;
+                        int radar = days[j].weather.temperature;
+                        string weather = ForecasterCondition(doppler, random);
+                        string temperature = ForecasterTemperature(radar, random);
+                        string[] output = new string[2] { weather, temperature };
+                        days[i].forecast.Add(output);
+                    }
+                }
+                else
+                {
+                    int counter = 0;
+                    int index = 7 - (days.Count-1-i);
+                    int returnToDay = 0;
+                    for (int j = i; j < days.Count-1; j++)
+                    { 
+                        string doppler = days[j].weather.condition;
+                        int radar = days[j].weather.temperature;
+                        string weather = ForecasterCondition(doppler, random);
+                        string temperature = ForecasterTemperature(radar, random);
+                        string[] output = new string[2] { weather, temperature };
+                        days[i].forecast.Add(output);
+                    }
+                    for (counter = 0; counter < index; counter++)
+                    {
+                        string doppler = days[returnToDay].weather.condition;
+                        int radar = days[returnToDay].weather.temperature;
+                        string weather = ForecasterCondition(doppler, random);
+                        string temperature = ForecasterTemperature(radar, random);
+                        string[] output = new string[2] { weather, temperature };
+                        days[i].forecast.Add(output);
+                        returnToDay++;
+                    }
+
+
+                }
+            }
+        }
+        string ForecasterCondition(string condition, Random random)
+        {
+            string output="";
+            for (int i = 0; i < weatherConditions.Count-1; i++)
+            {
+                if (i == 0&&condition == weatherConditions[i])
+                {
+                    output = weatherConditions[random.Next(i, i + 2)];
+                    break;
+                }
+                else if (i==weatherConditions.Count-1&&condition == weatherConditions[i])
+                {
+                    output = weatherConditions[random.Next(i-2, i)];
+                    break;
+                }
+                else if (condition == weatherConditions[i])
+                {
+                    output = weatherConditions[random.Next(i - 1, i + 1)];
+                    break;
+                }
+            }
+            return output;
+        }
+        string ForecasterTemperature(int temperature, Random random)
+        {
+            string output = random.Next(temperature - 20, temperature + 20).ToString();
+            return output;
+        }
     }
 }

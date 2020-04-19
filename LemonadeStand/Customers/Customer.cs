@@ -8,9 +8,8 @@ namespace LemonadeStand.Customers
 {
         class Customer
     {
-        List<string> names;
-        //copnames is here because it cant instantiate in the cop child and GetName() proper like.
-        public List<string> copnames;
+        //list names has to be public so I can get at it fom the cop child.
+        public List<string> names;
         public string name;
         public int thirst;
         public int sweettooth;
@@ -19,8 +18,7 @@ namespace LemonadeStand.Customers
         public   Customer(Random random)
         {
             this.random = random;
-            names = new List<string>() { "Michael Terrill","Michael Heinisch","Brett Johnson", "Charles King","David Legrange","nevin Seibel" };
-            copnames = new List<string>() { "Officer Dick", "Officer Tom","Officer Cop","Officer Dan" };
+            names = new List<string>() {"ET","Eddie Mercury","William Ryker","Oprah Winfrey","Tyrion Lannister","John Snow","Mr. Clean", "The Undertaker", "Dwayne Johnson","Jack Black","your mom","Bambi","Casper the Ghost" ,"Rip Van Winkle","Macguyver","John Lukepikard","Freddie Mercury","Michael Jackson" ,"Rick Sanchez","Emelia Earhart","Elvis Presley","Harry Potter","Ron Swanson","Hellen Kellar","Bruce Willis","Pepper Potts","Bruce Wayne","Michael Terrill","Michael Heinisch","Brett Johnson", "Charles King","David Legrange","Nevin Seibel" };
 
             sweettooth = GetSweet(random);
             thirst = GetThirst(random);

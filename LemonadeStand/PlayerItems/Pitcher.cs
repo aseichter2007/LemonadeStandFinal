@@ -9,5 +9,9 @@ namespace LemonadeStand.PlayerItems
     class Pitcher
     {
         public int cupsLeftInPitcher;
+        public Pitcher()
+        {
+
+        }
     }
 }

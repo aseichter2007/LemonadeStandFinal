@@ -14,7 +14,9 @@ namespace LemonadeStand.Customers
         }
         public override string GetName(Random random)
         {
-            string output = copnames[random.Next(1, copnames.Count-1)];
+            names = new List<string>() { "Officer Dick", "Officer Johnny 5", "Officer Smiley", "Officer Downe" };
+
+            string output = names[random.Next(1, names.Count-1)];
             return output;
         }
     }

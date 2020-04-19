@@ -17,10 +17,13 @@ namespace LemonadeStand
         int duration=7;
         public Game()
         {
+            player = new Player();
             days = new List<Day>();
             difficulty=3;
             random = new Random();
             GenerateDays(random, difficulty,duration);
+            days[0].weather.GetForecast(days,random);
+
         }
         void GenerateDays(Random random, int difficulty, int duration)
         {
