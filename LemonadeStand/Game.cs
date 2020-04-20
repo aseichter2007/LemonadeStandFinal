@@ -1,4 +1,6 @@
-﻿using LemonadeStand.DaysandWeather;
+﻿using LemonadeStand.Customers;
+using LemonadeStand.DaysandWeather;
+using LemonadeStand.PlayerItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,28 @@ namespace LemonadeStand
         int currentDay;
         Random random;
         int difficulty;
-        int duration=7;
+        int duration = 7;
         public Game()
         {
             player = new Player();
             days = new List<Day>();
-            difficulty=3;
+            difficulty = 3;
             random = new Random();
-            GenerateDays(random, difficulty,duration);
-            days[0].weather.GetForecast(days,random);
-
+            GenerateDays(random, difficulty, duration);
+            days[0].weather.GetForecast(days, random);
+            CustomersDrink(days[0]);
+        }
+        void CustomersDrink(Day day)
+        {
+            Recipe recipe = new Recipe(2,2,7,20);
+            Console.WriteLine(day.weather.condition + " and " + day.weather.temperature);
+            foreach (Customer customer in day.customers)
+            {
+                Pitcher pitcher = new Pitcher();
+                int bought =customer.BuyLemonade(player.wallet, recipe, day.weather, pitcher);
+                Console.WriteLine(customer.name + " bought " + bought + " cups of lemonade");
+            }
+            
         }
         void GenerateDays(Random random, int difficulty, int duration)
         {

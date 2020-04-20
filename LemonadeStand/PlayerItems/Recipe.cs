@@ -17,7 +17,7 @@ namespace LemonadeStand.PlayerItems
             amountOfLemons = lemons;
             amountOfSugarCubes = sugar;
             amountOfIceCubes = ice;
-            pricePerCup = price;
+            pricePerCup = price*0.01;
         }
     }
 }

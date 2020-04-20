@@ -20,7 +20,6 @@ namespace LemonadeStand
         {
             inventory = new Inventory();
             wallet = new Wallet();
-            Console.WriteLine("player exists");
         }
 
         // member methods (CAN DO)

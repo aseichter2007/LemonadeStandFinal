@@ -12,10 +12,8 @@ namespace LemonadeStand.PlayerItems
 
         public double Money
         {
-            get
-            {
-                return money;
-            }
+            get=> money;
+            set => money = money + value;
         }
 
         public Wallet()

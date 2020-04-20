@@ -15,7 +15,7 @@ namespace LemonadeStand.DaysandWeather
         public List<string> weatherConditions;
         public Weather(Random random)
         {
-            weatherConditions = new List<string>() { "heat wave","sunny", "windy", "rainy","raining cats and dogs","storming","snowing", "thundersnow" };
+            weatherConditions = new List<string>() { "heat wave","sunny","sunny","partly cloudy","cloudy", "windy", "rainy","raining cats and dogs","storming","snowing", "thundersnow" };
             condition = GetConditions(random);
             temperature = GetTemp(random);
         }
@@ -26,12 +26,12 @@ namespace LemonadeStand.DaysandWeather
         }
         int GetTemp(Random random)
         {
-            int temp = random.Next(40, 120);
+            int temp = random.Next(65, 120);
             for (int i = 0; i < weatherConditions.Count-1; i++)
             {
                 if (condition == weatherConditions[i])
                 {
-                    temp -= i * 15;
+                    temp -= i * 7;
                     break;
                 }
             }
@@ -58,9 +58,9 @@ namespace LemonadeStand.DaysandWeather
                 else
                 {
                     int counter = 0;
-                    int index = 7 - (days.Count-1-i);
+                    int index = 7 - (days.Count-i);
                     int returnToDay = 0;
-                    for (int j = i; j < days.Count-1; j++)
+                    for (int j = i; j < days.Count; j++)
                     { 
                         string doppler = days[j].weather.condition;
                         int radar = days[j].weather.temperature;
@@ -87,7 +87,7 @@ namespace LemonadeStand.DaysandWeather
         string ForecasterCondition(string condition, Random random)
         {
             string output="";
-            for (int i = 0; i < weatherConditions.Count-1; i++)
+            for (int i = 0; i < weatherConditions.Count; i++)
             {
                 if (i == 0&&condition == weatherConditions[i])
                 {
@@ -112,5 +112,6 @@ namespace LemonadeStand.DaysandWeather
             string output = random.Next(temperature - 20, temperature + 20).ToString();
             return output;
         }
+
     }
 }

@@ -10,7 +10,7 @@ namespace LemonadeStand.Customers
     {
         public Duck(Random random):base(random)
         {
-            name = "steve";
+            name = "a duck";
             type = "duck";
         }
     }

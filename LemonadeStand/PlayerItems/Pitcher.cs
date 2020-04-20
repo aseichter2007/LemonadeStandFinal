@@ -11,7 +11,7 @@ namespace LemonadeStand.PlayerItems
         public int cupsLeftInPitcher;
         public Pitcher()
         {
-
+            cupsLeftInPitcher = 10;
         }
     }
 }
