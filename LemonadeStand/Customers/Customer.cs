@@ -9,30 +9,27 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
-        class Customer
+    class Customer
     {
-        //list names has to be protected so I can get at it fom the cop child.
         protected List<string> names;
         public string name;
-        int thirst;
-        int sweettooth;
+        protected int thirst;
+        protected int sweettooth;
         public Random random;
         public string type;
-        public double money;
-        int lemonfresh;
+        protected double money;
+        protected int lemonfresh;
 
-        public   Customer(Random random)
+        public Customer(Random random)
         {
-            this.random = random;
-            names = new List<string>() {"ET","Eddie Mercury","William Ryker","Oprah Winfrey","Tyrion Lannister","John Snow","Mr. Clean", "The Undertaker", "Dwayne Johnson","Jack Black","your mom","Bambi","Casper the Ghost" ,"Rip Van Winkle","Macguyver","John Lukepikard","Freddie Mercury","Michael Jackson" ,"Rick Sanchez","Emelia Earhart","Elvis Presley","Harry Potter","Ron Swanson","Hellen Kellar","Bruce Willis","Pepper Potts","Bruce Wayne","Michael Terrill","Michael Heinisch","Brett Johnson", "Charles King","David Legrange","Nevin Seibel" };
-
+            names = new List<string>() { "ET", "Eddie Mercury", "William Ryker", "Oprah Winfrey", "Tyrion Lannister", "John Snow", "Mr. Clean", "The Undertaker", "Dwayne Johnson", "Jack Black", "your mom", "Bambi", "Casper the Ghost", "Rip Van Winkle", "Macguyver", "John Lukepikard", "Freddie Mercury", "Michael Jackson", "Rick Sanchez", "Emelia Earhart", "Elvis Presley", "Harry Potter", "Ron Swanson", "Hellen Kellar", "Bruce Willis", "Pepper Potts", "Bruce Wayne", "Michael Terrill", "Michael Heinisch", "Brett Johnson", "Charles King", "David Legrange", "Nevin Seibel" };
             sweettooth = GetSweet(random);
             thirst = GetThirst(random);
             name = GetName(random);
             type = "customer";
             money = GetMoney(random);
             lemonfresh = GetSweet(random);
-            
+
         }
         int GetSweet(Random random)
         {
@@ -54,19 +51,18 @@ namespace LemonadeStand.Customers
             double output = random.Next(0, 10);
             return output;
         }
-        public virtual int BuyLemonade(Wallet wallet, Recipe recipe, Weather weather)
+        public virtual int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather)
         {
-            int output = 0;
+            int [] output = new int[2] { 0, 0 };
             while (money > recipe.pricePerCup&&thirst>0)
             {
                 bool thirsty = LemonadeCraving(recipe, weather);
                 if (thirsty)
-                {
-                    
+                {                    
                     money -= recipe.pricePerCup;
                     wallet.Money = recipe.pricePerCup;
                     thirst -= 80;
-                    output++;
+                    output[0]++;
                 }
                 else
                 {
@@ -75,7 +71,7 @@ namespace LemonadeStand.Customers
             }
             return output;
         }
-        bool LemonadeCraving(Recipe recipe, Weather weather)
+        protected bool LemonadeCraving(Recipe recipe, Weather weather)
         {
             int truethirst = (thirst + weather.temperature*6) / 2;
             int idealIce = (weather.temperature -20) / 12;
@@ -88,7 +84,7 @@ namespace LemonadeStand.Customers
             }
             return buyADrink;
         }
-        int HorrbleMess(int idealIce, Recipe recipe)
+        protected int HorrbleMess(int idealIce, Recipe recipe)
         {
             int flavor = 0;
             if (sweettooth == recipe.amountOfSugarCubes && lemonfresh == recipe.amountOfLemons && idealIce == recipe.amountOfIceCubes)

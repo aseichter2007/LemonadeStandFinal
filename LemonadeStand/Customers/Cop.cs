@@ -10,7 +10,7 @@ namespace LemonadeStand.Customers
     {
         public Cop(Random random):base(random)
         {
-            type = "cop:";
+            type = "cop";
         }
         public override string GetName(Random random)
         {

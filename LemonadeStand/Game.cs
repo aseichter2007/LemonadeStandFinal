@@ -36,9 +36,9 @@ namespace LemonadeStand
             double daysPofit = 0;            
             foreach (Customer customer in day.customers)
             {                
-                    int bought = customer.BuyLemonade(player.wallet, recipe, day.weather);
-                    player.pitcher.cupsLeftInPitcher -= bought;
-                for (int i = 0; i < bought; i++)
+                    int[] bought = customer.BuyLemonade(player.wallet, recipe, day.weather);
+                    player.pitcher.cupsLeftInPitcher -= bought[0];
+                for (int i = 0; i < bought[0]; i++)
                 {
                     if (player.pitcher.cupsLeftInPitcher > 0)
                     {
@@ -59,6 +59,18 @@ namespace LemonadeStand
                             break;
                         }
                     }
+
+                    if (bought[1]==1)
+                    {
+                        foreach (Customer customer1 in day.customers)
+                        {
+                            if (customer1.type=="cop")
+                            {
+                                Console.WriteLine(customer1.name + " caught " + customer.name + " stealing and took him to jail.");
+                                break;
+                            }
+                        }
+                    }
                 }              
             }
             return daysPofit;
@@ -70,7 +82,6 @@ namespace LemonadeStand
                 Day day = new Day(random, difficulty);
                 days.Add(day);
             }
-
         }
         int InputCheck(string input)
         {
