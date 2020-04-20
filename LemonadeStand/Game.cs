@@ -25,19 +25,43 @@ namespace LemonadeStand
             random = new Random();
             GenerateDays(random, difficulty, duration);
             days[0].weather.GetForecast(days, random);
-            CustomersDrink(days[0]);
         }
-        void CustomersDrink(Day day)
+        void RunGame()
         {
-            Recipe recipe = new Recipe(2,2,7,20);
-            Console.WriteLine(day.weather.condition + " and " + day.weather.temperature);
+            CustomersDrink(days[currentDay], player.recipe);
+            currentDay++;
+        }
+        double CustomersDrink(Day day, Recipe recipe)
+        {
+            double daysPofit = 0;            
             foreach (Customer customer in day.customers)
-            {
-                Pitcher pitcher = new Pitcher();
-                int bought =customer.BuyLemonade(player.wallet, recipe, day.weather, pitcher);
-                Console.WriteLine(customer.name + " bought " + bought + " cups of lemonade");
+            {                
+                    int bought = customer.BuyLemonade(player.wallet, recipe, day.weather);
+                    player.pitcher.cupsLeftInPitcher -= bought;
+                for (int i = 0; i < bought; i++)
+                {
+                    if (player.pitcher.cupsLeftInPitcher > 0)
+                    {
+                        player.pitcher.cupsLeftInPitcher--;
+                        daysPofit += recipe.pricePerCup;
+                    }
+                    else
+                    {
+                        bool haveIngredients = player.FillPitcher();
+                        if (haveIngredients)
+                        {
+                            player.pitcher.cupsLeftInPitcher--;
+                            daysPofit += recipe.pricePerCup;
+                        }
+                        else
+                        {
+                            Console.WriteLine("the other customers went home empty handed.");
+                            break;
+                        }
+                    }
+                }              
             }
-            
+            return daysPofit;
         }
         void GenerateDays(Random random, int difficulty, int duration)
         {

@@ -12,12 +12,19 @@ namespace LemonadeStand.PlayerItems
         public int amountOfSugarCubes;
         public int amountOfIceCubes;
         public double pricePerCup;
-        public Recipe(int lemons,int sugar, int ice, int price)
+        public Recipe()
+        {
+            amountOfLemons = 0 ;
+            amountOfSugarCubes = 0 ;
+            amountOfIceCubes =0;
+            pricePerCup =0;
+        }
+        public void SetIngredients(int lemons, int sugar, int ice, int price)
         {
             amountOfLemons = lemons;
             amountOfSugarCubes = sugar;
             amountOfIceCubes = ice;
-            pricePerCup = price*0.01;
+            pricePerCup = price * 0.01;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace LemonadeStand.Customers
             double output = random.Next(0, 10);
             return output;
         }
-        public virtual int BuyLemonade(Wallet wallet, Recipe recipe, Weather weather, Pitcher pitcher)
+        public virtual int BuyLemonade(Wallet wallet, Recipe recipe, Weather weather)
         {
             int output = 0;
             while (money > recipe.pricePerCup&&thirst>0)
@@ -62,7 +62,7 @@ namespace LemonadeStand.Customers
                 bool thirsty = LemonadeCraving(recipe, weather);
                 if (thirsty)
                 {
-                    pitcher.cupsLeftInPitcher--;
+                    
                     money -= recipe.pricePerCup;
                     wallet.Money = recipe.pricePerCup;
                     thirst -= 80;
