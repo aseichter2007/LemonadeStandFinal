@@ -115,6 +115,7 @@ namespace LemonadeStand
             string humans;
             string robots;
             string duration;
+            string difficulty;
             do
             {
                 Console.WriteLine("How many human players?  0-99");
@@ -139,9 +140,27 @@ namespace LemonadeStand
                 {
                     safe = false;
                 }
-
             } while (!safe);
-            int[] output = new int[3] { int.Parse(humans), int.Parse(robots),int.Parse(duration) };
+            bool stay = true;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Choose difficulty. 3=easy, 2=medium, 1=hard.");
+                string hard = Console.ReadLine();
+                safe = InputSanitizer(hard, 1);
+                if (safe && int.Parse(hard) < 4)
+                {
+                    difficulty = hard;
+                }
+                else
+                {
+                    safe = false;
+                }
+            }
+            while (!safe);
+            int[] output = new int[4] { int.Parse(humans), int.Parse(robots),int.Parse(duration), int.Parse(duration) };
             Console.Clear();
             return output;
         }
@@ -149,23 +168,7 @@ namespace LemonadeStand
         {
             Console.WriteLine();
             Console.WriteLine("enter player name");
-            player.name = Console.ReadLine();
-            bool stay = true;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("Player one chooses difficulty. 3=easy, 2=medium, 1=hard.");
-                string hard = Console.ReadLine();
-                bool safe = InputSanitizer(hard, 1);
-                if (safe && int.Parse(hard) < 4)
-                {
-                    player.difficulty = int.Parse(hard);
-                    stay = false;
-                }
-            }
-            while (stay);
+            player.name = Console.ReadLine();            
         }
         public static void BetweenDayStatusChoice(Player player, int currentDay, Day day, Store store)
         {

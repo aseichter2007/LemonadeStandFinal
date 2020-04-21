@@ -95,5 +95,57 @@ namespace LemonadeStand
         {
             wallet.PayMoneyForItems(transactionAmount);
         }
+        public void SelltoAI(Player player,Random random) 
+        {
+            bool lemon = false;
+            bool sugar = false;
+            bool cups = false;
+            bool ice = false;
+            int count;
+            do
+            {
+                if (!lemon)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 40), pricePerLemon);
+                    if (player.wallet.Money >= transactionAmount)
+                    {
+                        player.wallet.PayMoneyForItems(transactionAmount);
+                        player.inventory.AddLemonsToInventory(count);
+                        lemon = true;
+                    }
+                }
+                if (!sugar)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 40), pricePerSugarCube);
+                    if (player.wallet.Money >= transactionAmount)
+                    {
+                        player.wallet.PayMoneyForItems(transactionAmount);
+                        player.inventory.AddSugarCubesToInventory(count);
+                        lemon = true;
+                    }
+                }
+                if (!cups)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 100), pricePerCup);
+                    if (player.wallet.Money >= transactionAmount)
+                    {
+                        player.wallet.PayMoneyForItems(transactionAmount);
+                        player.inventory.AddCupsToInventory(count);
+                        lemon = true;
+                    }
+                }
+                if (!ice)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 200), pricePerCup);
+                    if (player.wallet.Money >= transactionAmount)
+                    {
+                        player.wallet.PayMoneyForItems(transactionAmount);
+                        player.inventory.AddCupsToInventory(count);
+                        lemon = true;
+                    }
+                }
+            } while (!lemon&&!sugar&&!cups&&!ice);
+            
+}
     }
 }

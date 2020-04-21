@@ -45,20 +45,20 @@ namespace LemonadeStand
             
             int[] players = UserInterface.GameSetup();
             duration = players[2];
+            difficulty = players[3];
+            GenerateDays(random, difficulty, duration);
+            days[0].weather.GetForecast(days, random);
             for (int i = 0; i < players[0]; i++)
             {
                 player = new Player();
                 UserInterface.PlayerSetup(player);
                 PlayerList.Add(player);
             }
-            difficulty = PlayerList[0].difficulty;
             for (int i = 0; i < players[1]; i++)
             {
                 player = new AI();
                 player.name = days[0].customers[0].GetName(random);
-            }
-            GenerateDays(random, difficulty, duration);
-            days[0].weather.GetForecast(days, random);
+            }           
             
         }
 
@@ -70,15 +70,21 @@ namespace LemonadeStand
             }
             else
             {
-                player.AITurn();
+                player.AITurn(random,store,player);
             }           
             double daysProfit =CustomersDrink(days[currentDay], player.recipe,player.human);
             player.wallet.Money = daysProfit;
             Console.WriteLine("today {1} made {0}", daysProfit.ToString("c"),player.name);
+            IceMelts(player);
             Console.WriteLine("press enter to continue");
             Console.ReadLine();
             Console.Clear();
 
+        }
+        void IceMelts(Player player)
+        {
+            Console.WriteLine(player.inventory.iceCubes.Count + "melted");
+            player.inventory.iceCubes.Clear();
         }
         double CustomersDrink(Day day, Recipe recipe, bool human)
         {

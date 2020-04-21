@@ -73,6 +73,6 @@ namespace LemonadeStand
         {
             recipe.SetIngredients(lemons, sugar, ice, price);
         }
-        public virtual void AITurn() { }
+        public virtual void AITurn(Random random, Store store, Player player) { }
     }
 }
