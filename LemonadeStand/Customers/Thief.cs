@@ -14,12 +14,12 @@ namespace LemonadeStand.Customers
         {
             type = "theif";
         }
-        public override int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather)
+        public override int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather,bool human)
         {
             int[] output = new int[2] { 0, 0 };
             while (thirst > 0)
             {
-                bool thirsty = LemonadeCraving(recipe, weather);
+                bool thirsty = LemonadeCraving(recipe, weather, human);
                 if (thirsty)
                 {
                     money -= recipe.pricePerCup;

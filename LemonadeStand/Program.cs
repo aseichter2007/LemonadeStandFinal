@@ -10,7 +10,9 @@ namespace LemonadeStand
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Game newgame = new Game();
+            newgame.RunGame();
             Console.ReadLine();
         }
     }

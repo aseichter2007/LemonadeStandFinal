@@ -14,6 +14,9 @@ namespace LemonadeStand
         public Wallet wallet;
         public Recipe recipe;
         public Pitcher pitcher;
+        public string name;
+        public int difficulty;
+        public bool human;
 
         // constructor (SPAWNER)
         public Player()
@@ -21,10 +24,12 @@ namespace LemonadeStand
             inventory = new Inventory();
             wallet = new Wallet();
             recipe = new Recipe();
+            pitcher = new Pitcher();
+            human = true;
         }
 
         // member methods (CAN DO)
-        public bool FillPitcher()
+        public bool FillPitcher(bool human)
         {
             bool output = true;
             if (inventory.lemons.Count > recipe.amountOfLemons && inventory.sugarCubes.Count > recipe.amountOfSugarCubes && inventory.iceCubes.Count > recipe.amountOfIceCubes * 10 && inventory.cups.Count > 10)
@@ -39,26 +44,28 @@ namespace LemonadeStand
             { 
                 output = false; 
             }
-
-            if (inventory.lemons.Count <= recipe.amountOfLemons)
+            if (human)
             {
-                Console.WriteLine("You ran out of lemons.");
+                if (inventory.lemons.Count <= recipe.amountOfLemons)
+                {
+                    Console.WriteLine("You ran out of lemons.");
 
-            }
+                }
 
-            if (inventory.sugarCubes.Count <= recipe.amountOfSugarCubes)
-            {
-                Console.WriteLine("You ran out of sugar cubes.");
-            }
+                if (inventory.sugarCubes.Count <= recipe.amountOfSugarCubes)
+                {
+                    Console.WriteLine("You ran out of sugar cubes.");
+                }
 
-            if (inventory.iceCubes.Count <= recipe.amountOfIceCubes*10)
-            {
-                Console.WriteLine("You ran out of ice Cubes.");
-            }
+                if (inventory.iceCubes.Count <= recipe.amountOfIceCubes * 10)
+                {
+                    Console.WriteLine("You ran out of ice Cubes.");
+                }
 
-            if (inventory.cups.Count <= 11)
-            {
-                Console.WriteLine("You ran out of cups.");
+                if (inventory.cups.Count <= 11)
+                {
+                    Console.WriteLine("You ran out of cups.");
+                }
             }
             return output;
         }
@@ -66,5 +73,6 @@ namespace LemonadeStand
         {
             recipe.SetIngredients(lemons, sugar, ice, price);
         }
+        public virtual void AITurn() { }
     }
 }

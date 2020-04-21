@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
-    class Duck:Customer
+    class Duck : Customer
     {
-        public Duck(Random random):base(random)
+        public Duck(Random random) : base(random)
         {
             name = "a duck";
-            type = "duck";            
+            type = "duck";
         }
-        public override int BuyLemonade(Wallet wallet,Recipe recipe,Weather weather)
+        public override int[] BuyLemonade(Wallet wallet,Recipe recipe,Weather weather,bool human)
         {
-            int output = 0;
+            int[] output = new int[] { 0, 0 };
             Console.WriteLine(name + "asked if you have any grapes.");
             return output;
         }

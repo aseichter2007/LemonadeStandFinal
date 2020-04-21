@@ -22,7 +22,7 @@ namespace LemonadeStand.Customers
 
         public Customer(Random random)
         {
-            names = new List<string>() { "ET", "Eddie Mercury", "William Ryker", "Oprah Winfrey", "Tyrion Lannister", "John Snow", "Mr. Clean", "The Undertaker", "Dwayne Johnson", "Jack Black", "your mom", "Bambi", "Casper the Ghost", "Rip Van Winkle", "Macguyver", "John Lukepikard", "Freddie Mercury", "Michael Jackson", "Rick Sanchez", "Emelia Earhart", "Elvis Presley", "Harry Potter", "Ron Swanson", "Hellen Kellar", "Bruce Willis", "Pepper Potts", "Bruce Wayne", "Michael Terrill", "Michael Heinisch", "Brett Johnson", "Charles King", "David Legrange", "Nevin Seibel" };
+            names = new List<string>() { "ET", "Austin Power's Dad", "Robin Williams", "Bruce Wayne","Kanye East", "Marshal Mathers", "Dave Chappele", "Light Yagami", "Walt Disney", "Spyro", "Forrest Gump", "Antonio Banderas", "Bryan Boitano", "Eric Cartman", "Kenny McCormic", "Lindsay Lohan", "Dr. Evil"  , "Eddie Mercury", "William Ryker", "Oprah Winfrey", "Tyrion Lannister", "John Snow", "Mr. Clean", "The Undertaker", "Dwayne Johnson", "Jack Black", "your mom", "Bambi", "Casper the Ghost", "Rip Van Winkle", "Macguyver", "John Lukepikard", "Freddie Mercury", "Michael Jackson", "Rick Sanchez", "Emelia Earhart", "Elvis Presley", "Harry Potter", "Ron Swanson", "Hellen Kellar", "Bruce Willis", "Pepper Potts", "Bruce Wayne", "Michael Terrill", "Michael Heinisch", "Brett Johnson", "Charles King", "David Legrange", "Nevin Seibel" };
             sweettooth = GetSweet(random);
             thirst = GetThirst(random);
             name = GetName(random);
@@ -51,12 +51,12 @@ namespace LemonadeStand.Customers
             double output = random.Next(0, 10);
             return output;
         }
-        public virtual int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather)
+        public virtual int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather,bool human)
         {
             int [] output = new int[2] { 0, 0 };
             while (money > recipe.pricePerCup&&thirst>0)
             {
-                bool thirsty = LemonadeCraving(recipe, weather);
+                bool thirsty = LemonadeCraving(recipe, weather, human);
                 if (thirsty)
                 {                    
                     money -= recipe.pricePerCup;
@@ -71,14 +71,14 @@ namespace LemonadeStand.Customers
             }
             return output;
         }
-        protected bool LemonadeCraving(Recipe recipe, Weather weather)
+        protected bool LemonadeCraving(Recipe recipe, Weather weather,bool human)
         {
             int truethirst = (thirst + weather.temperature*6) / 2;
             int idealIce = (weather.temperature -20) / 12;
             int flavor = HorrbleMess(idealIce, recipe);
             double craving = flavor*0.6 * truethirst ;
             bool buyADrink = craving > 200;
-            if (flavor==0)
+            if (human&&flavor==0)
             {
                 Console.WriteLine(name + " doesn't like your lemonade.");
             }

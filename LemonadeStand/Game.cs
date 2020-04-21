@@ -4,6 +4,7 @@ using LemonadeStand.PlayerItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,9 @@ namespace LemonadeStand
 {
     class Game
     {
+        List<Player> PlayerList;
         Player player;
+        Store store;
         List<Day> days;
         int currentDay;
         Random random;
@@ -19,24 +22,71 @@ namespace LemonadeStand
         int duration = 7;
         public Game()
         {
-            player = new Player();
+            PlayerList = new List<Player>();
             days = new List<Day>();
-            difficulty = 3;
+            store = new Store();
             random = new Random();
+        }
+        public void RunGame()
+        {
+            GameSetup();
+            currentDay = 0;
+            do
+            {
+                foreach (Player gameplayer in PlayerList)
+                {
+                    Turn(player);
+                }
+                currentDay++;
+            } while (currentDay<+duration);
+        }
+        void GameSetup()
+        {
+            
+            int[] players = UserInterface.GameSetup();
+            duration = players[2];
+            for (int i = 0; i < players[0]; i++)
+            {
+                player = new Player();
+                UserInterface.PlayerSetup(player);
+                PlayerList.Add(player);
+            }
+            difficulty = PlayerList[0].difficulty;
+            for (int i = 0; i < players[1]; i++)
+            {
+                player = new AI();
+                player.name = days[0].customers[0].GetName(random);
+            }
             GenerateDays(random, difficulty, duration);
             days[0].weather.GetForecast(days, random);
+            
         }
-        void RunGame()
+
+        void Turn(Player player)
         {
-            CustomersDrink(days[currentDay], player.recipe);
-            currentDay++;
+            if (player.human)
+            {
+             UserInterface.BetweenDayStatusChoice(player, 0, days[currentDay], store);
+            }
+            else
+            {
+                player.AITurn();
+            }           
+            double daysProfit =CustomersDrink(days[currentDay], player.recipe,player.human);
+            player.wallet.Money = daysProfit;
+            Console.WriteLine("today {1} made {0}", daysProfit.ToString("c"),player.name);
+            Console.WriteLine("press enter to continue");
+            Console.ReadLine();
+            Console.Clear();
+
         }
-        double CustomersDrink(Day day, Recipe recipe)
+        double CustomersDrink(Day day, Recipe recipe, bool human)
         {
-            double daysPofit = 0;            
+            double daysPofit = 0;
+            bool breaker = false;
             foreach (Customer customer in day.customers)
             {                
-                    int[] bought = customer.BuyLemonade(player.wallet, recipe, day.weather);
+                    int[] bought = customer.BuyLemonade(player.wallet, recipe, day.weather, human);
                     player.pitcher.cupsLeftInPitcher -= bought[0];
                 for (int i = 0; i < bought[0]; i++)
                 {
@@ -47,7 +97,7 @@ namespace LemonadeStand
                     }
                     else
                     {
-                        bool haveIngredients = player.FillPitcher();
+                        bool haveIngredients = player.FillPitcher(human);
                         if (haveIngredients)
                         {
                             player.pitcher.cupsLeftInPitcher--;
@@ -55,12 +105,16 @@ namespace LemonadeStand
                         }
                         else
                         {
-                            Console.WriteLine("the other customers went home empty handed.");
+                            if (human)
+                            {
+                                Console.WriteLine("the other customers went home empty handed.");
+                            }
+                            breaker = true;
                             break;
                         }
                     }
 
-                    if (bought[1]==1)
+                    if (human&&bought[1]==1)
                     {
                         foreach (Customer customer1 in day.customers)
                         {
@@ -71,7 +125,12 @@ namespace LemonadeStand
                             }
                         }
                     }
-                }              
+                    
+                }
+                if (breaker)
+                {
+                    break;
+                }
             }
             return daysPofit;
         }
@@ -83,11 +142,6 @@ namespace LemonadeStand
                 days.Add(day);
             }
         }
-        int InputCheck(string input)
-        {
-            int output=0;
-
-            return output;
-        }
+       
     }
 }
