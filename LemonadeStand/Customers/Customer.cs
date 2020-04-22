@@ -9,6 +9,19 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand.Customers
 {
+
+    //my customer and subcustomer classes might demonstrate liskov substitution?
+    //all customers do all these acitons, while the thief and duck customers do 
+    //things just a little differntly.
+
+
+    //my customer classes might also embody the open to extention, closed to modificaiton principle. 
+    //more types of customers can easily be added and adressed through minor changes or added 
+    //checks in Game.CustomersDrink(), much the dsame way that cops catch robbers
+    //but noone wants to dig through the horrible mess of an actual customer's buy decision logic. 
+    //the class that calls that logic isnt terribly complex and the output is simple, so new ways to buy
+    //might be implemented, such as bartering a lemon or stack of cups for lemonade instead of cash.
+    
     class Customer
     {
         protected List<string> names;

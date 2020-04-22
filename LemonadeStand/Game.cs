@@ -31,7 +31,6 @@ namespace LemonadeStand
         public void RunGame()
         {
             GameSetup();
-            currentDay = 0;
             do
             {
                 foreach (Player gameplayer in PlayerList)
@@ -39,37 +38,45 @@ namespace LemonadeStand
                     Turn(gameplayer);
                 }
                 currentDay++;
-            } while (currentDay<=duration);
+            } while (currentDay <= duration);
             LeaderBoard();
         }
         void LeaderBoard()
         {
             foreach (Player finishplayer in PlayerList)
             {
-                Console.WriteLine("{0} finished the game with {1}",finishplayer.name,finishplayer.wallet.Money.ToString("c"));
+                UserInterface.Leaderboard(finishplayer);
             }
         }
         void GameSetup()
         {
-            
+
             int[] players = UserInterface.GameSetup();
             duration = players[2];
             difficulty = players[3];
-            GenerateDays(random, difficulty, duration);
-            days[0].weather.GetForecast(days, random);
+            currentDay = 0;
             for (int i = 0; i < players[0]; i++)
             {
                 player = new Player();
                 UserInterface.PlayerSetup(player);
+                bool load = SaveGame.LoadSave(player);
                 PlayerList.Add(player);
+                if (load)
+                {
+                    currentDay = player.currentday;
+                    difficulty = player.difficulty;
+                    duration = player.duration;
+                }
             }
+            GenerateDays(random, difficulty, duration);
+            days[0].weather.GetForecast(days, random);
             for (int i = 0; i < players[1]; i++)
             {
                 player = new AI();
                 player.name = days[0].customers[0].GetName(random);
                 PlayerList.Add(player);
-            }           
-            
+            }
+
         }
 
         void Turn(Player player)
@@ -77,17 +84,17 @@ namespace LemonadeStand
 
             if (player.human)
             {
-             UserInterface.BetweenDayStatusChoice(player, 0, days[currentDay], store);
+                UserInterface.BetweenDayStatusChoice(player, currentDay, days[currentDay], store, duration,difficulty);
             }
             else
             {
-                player.AITurn(random,store,player);
+                player.AITurn(random, store, player);
                 UserInterface.AIdentify(player);
             }
-            double daysProfit =CustomersDrink(days[currentDay], player.recipe,player.human);
-            //player.wallet.Money = daysProfit;
+            double daysProfit = CustomersDrink(player.wallet, days[currentDay], player.recipe, player.human);
+            //player.wallet.Money = daysProfit;  legacy.
             IceMelts(player);
-            Console.WriteLine("press enter to continue");
+            UserInterface.PressEnter();
             Console.ReadLine();
             Console.Clear();
 
@@ -97,15 +104,16 @@ namespace LemonadeStand
             UserInterface.IceMelts(player);
             player.inventory.iceCubes.Clear();
         }
-        double CustomersDrink(Day day, Recipe recipe, bool human)
+        double CustomersDrink(Wallet wallet, Day day, Recipe recipe, bool human)
         {
             double daysPofit = 0;
             bool breaker = false;
             int cupssold = 0;
+            int pitchersMade = 0;
             foreach (Customer customer in day.customers)
-            {                
-                    int[] bought = customer.BuyLemonade(player.wallet, recipe, day.weather, human);
-                    player.pitcher.cupsLeftInPitcher -= bought[0];
+            {
+                int[] bought = customer.BuyLemonade(wallet, recipe, day.weather, human);
+                UserInterface.CustomersDrink(bought[0], customer);
                 for (int i = 0; i < bought[0]; i++)
                 {
                     if (player.pitcher.cupsLeftInPitcher > 0)
@@ -122,6 +130,7 @@ namespace LemonadeStand
                             player.pitcher.cupsLeftInPitcher--;
                             daysPofit += recipe.pricePerCup;
                             cupssold++;
+                            pitchersMade++;
                         }
                         else
                         {
@@ -134,35 +143,48 @@ namespace LemonadeStand
                         }
                     }
 
-                    if (human&&bought[1]==1)
+                    if (human && bought[1] == 1)
                     {
                         foreach (Customer customer1 in day.customers)
                         {
-                            if (customer1.type=="cop")
+                            if (customer1.type == "cop")
                             {
                                 UserInterface.CopCaught(customer1.name, customer.name);
                                 break;
                             }
                         }
                     }
-                    
+
                 }
                 if (breaker)
                 {
                     break;
                 }
             }
-            UserInterface.SoldToday(daysPofit, cupssold);
+            double dayscost = OperatingCost(pitchersMade, recipe);
+            UserInterface.SoldToday(daysPofit,dayscost, cupssold);
+            wallet.totalProfit += daysPofit - dayscost;
             return daysPofit;
         }
         void GenerateDays(Random random, int difficulty, int duration)
         {
-            for (int i = 0; i < duration+1; i++)
+            for (int i = 0; i < duration + 1; i++)
             {
                 Day day = new Day(random, difficulty);
                 days.Add(day);
             }
         }
-       
+        double OperatingCost(int pitchers, Recipe recipe)
+        {
+            double output = 0;
+            output += pitchers * recipe.amountOfLemons * store.Lemon;
+            output += pitchers * recipe.amountOfIceCubes *10 * store.Ice;
+            output += pitchers * recipe.amountOfSugarCubes * store.Sugar;
+            output += pitchers * 10 * store.Cup;
+            return output;
+
+
+        }
+
     }
 }

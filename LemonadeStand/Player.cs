@@ -15,6 +15,8 @@ namespace LemonadeStand
         public Recipe recipe;
         public Pitcher pitcher;
         public string name;
+        public int currentday;
+        public int duration;
         public int difficulty;
         public bool human;
 

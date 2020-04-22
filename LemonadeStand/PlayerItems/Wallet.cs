@@ -9,6 +9,7 @@ namespace LemonadeStand.PlayerItems
     class Wallet
     {
         private double money;
+        public double totalProfit;
 
         public double Money
         {
@@ -19,6 +20,7 @@ namespace LemonadeStand.PlayerItems
         public Wallet()
         {
             money = 20.00;
+            totalProfit = 0;
         }
 
         public void PayMoneyForItems(double transactionAmount)

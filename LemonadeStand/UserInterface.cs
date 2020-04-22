@@ -1,4 +1,5 @@
-﻿using LemonadeStand.DaysandWeather;
+﻿using LemonadeStand.Customers;
+using LemonadeStand.DaysandWeather;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -15,6 +16,32 @@ namespace LemonadeStand
 {
     static class UserInterface
     {
+
+        //my userinterface class handles all console input and output. 
+        //It embodies the interface segregation solid principle. 
+        //if anyhing input or output related needs to be changed or verified, 
+        //it can be found here without digging through all the rest of the code.
+
+        public static bool LoadSave()
+        {
+            bool output =false;
+            Console.WriteLine();
+            Console.WriteLine("load previous save?");
+            Console.WriteLine("New players and ai will start fresh on the day and difficulty where the last loaded player saved. ");
+            Console.WriteLine("Other loaded players will start on the current day and difficulty of the last player to load.");
+            Console.WriteLine("If you dont load and then save, the old save will be overwritten." );
+            Console.WriteLine();
+            Console.WriteLine("would you like to load this save?");
+
+            string input = Console.ReadLine();
+            if (input == "y"||input=="yes"||input=="Y"||input=="Yes"||input=="ok")
+            {
+                output = true;
+            }
+
+            return output;
+            
+        }
         public static int GetNumberOfItems(string itemsToGet)
         {
             bool userInputIsAnInteger = false;
@@ -38,7 +65,7 @@ namespace LemonadeStand
                 string money;
                 Console.WriteLine();
                 Console.WriteLine("Your mom took you to the store with her, kicking asnd screaming.");
-                Console.WriteLine("You have " + player.wallet.Money.ToString("c") + "," + player.inventory.lemons.Count + " lemons, " + player.inventory.sugarCubes.Count + " sugar cubes, " + player.inventory.iceCubes.Count + " ice cubes, and " + player.inventory.cups.Count + " cups.");
+                Console.WriteLine("You have " + player.wallet.Money.ToString("c") + ", " + player.inventory.lemons.Count + " lemons, " + player.inventory.sugarCubes.Count + " sugar cubes, " + player.inventory.iceCubes.Count + " ice cubes, and " + player.inventory.cups.Count + " cups.");
                 Console.WriteLine("Your mom will only let you buy fom this list:");
                 Console.WriteLine("Lemons are {0} each." , money =store.Lemon.ToString("c"));
                 Console.WriteLine("Sugar Cubes are {0} each." , money =store.Sugar.ToString("c"));
@@ -141,7 +168,6 @@ namespace LemonadeStand
                     safe = false;
                 }
             } while (!safe);
-            bool stay = true;
             do
             {
                 Console.WriteLine();
@@ -163,13 +189,14 @@ namespace LemonadeStand
             Console.Clear();
             return output;
         }
+
         public static void PlayerSetup(Player player)
         {
             Console.WriteLine();
-            Console.WriteLine("enter player name");
+            Console.WriteLine("Enter player name. Saves are tracked with this name. Enter the name you wish to load a save from." );
             player.name = Console.ReadLine();            
         }
-        public static void BetweenDayStatusChoice(Player player, int currentDay, Day day, Store store)
+        public static void BetweenDayStatusChoice(Player player, int currentDay, Day day, Store store, int duration, int difficulty)
         {
             bool safe= false;
             string input="";
@@ -179,7 +206,9 @@ namespace LemonadeStand
                 Console.WriteLine();
                 Console.WriteLine("Goodmorning {0}",player.name);
                 Console.WriteLine("you have some time before opening your lemonade stand, what would you like to do before day {0} begins?",currentDay);
-                Console.WriteLine("You have "+player.wallet.Money.ToString("c")+ "," + player.inventory.lemons.Count + " lemons, " + player.inventory.sugarCubes.Count + " sugar cubes, " + player.inventory.iceCubes.Count + " ice cubes, and " + player.inventory.cups.Count + " cups.");
+                Console.WriteLine("You have "+player.wallet.Money.ToString("c")+ ", " + player.inventory.lemons.Count + " lemons, " + player.inventory.sugarCubes.Count + " sugar cubes, " + player.inventory.iceCubes.Count + " ice cubes, and " + player.inventory.cups.Count + " cups.");
+                Console.WriteLine("So far you have made {0} running your lemonade stand." , player.wallet.totalProfit.ToString("c"));
+                Console.WriteLine("0. Save your game.");
                 Console.WriteLine("1. Send your mom to the store.");
                 Console.WriteLine("2. Check the weather forecast.");
                 Console.WriteLine("3. Change your lemonade recipe.");
@@ -189,7 +218,7 @@ namespace LemonadeStand
                 if (safe)
                 {
                     Console.Clear();
-                    safe =ChoiceChoose(input.Trim(), player,currentDay,day, store);
+                    safe =ChoiceChoose(input.Trim(), player,currentDay,day, store, duration, difficulty);
                 }
 
                 if (safe == false&& input.Trim()!="4")
@@ -227,7 +256,7 @@ namespace LemonadeStand
             return output;
         }
 
-        static bool ChoiceChoose(string input,Player player, int currentDay, Day day,Store store)
+        static bool ChoiceChoose(string input,Player player, int currentDay, Day day,Store store,int duration, int difficulty)
         {
             bool output = false;
             Console.Clear();
@@ -248,6 +277,11 @@ namespace LemonadeStand
                 case "4":
                     output = true;
                     break;
+                case "0":
+                    SaveGame.SavePlayer(player,currentDay,duration,difficulty);
+                    output = true;
+                    break;
+
             }
             return output;
         }
@@ -426,6 +460,17 @@ namespace LemonadeStand
             Console.ReadLine();
             Console.Clear();
         }
+       
+
+        //Any of the methods below are good examples of single responsibility methods.
+        //they are each responsible only for writing a single line to the console. 
+        //single responsibility methods are easier for others to understand, easy to troubleshoot,
+        //and less likely to break, because less is happening in one place.
+
+        public static void CustomersDrink(int bought, Customer customer)
+        {
+            Console.WriteLine("{0} wants to buy {1} of your lemonade.", customer.name, bought);
+        }
         public static void DoesntLike(string name)
         {
             Console.WriteLine(name + " doesn't like your lemonade.");
@@ -434,9 +479,9 @@ namespace LemonadeStand
         {
             Console.WriteLine(name + " asked if you have any grapes.");
         }
-        public static void SoldToday(double daysProfit,int cupssold)
+        public static void SoldToday(double daysProfit,double dayscost,int cupssold)
         {
-            Console.WriteLine(" sold {0} cups of lemonade today. and made {1}", cupssold, daysProfit.ToString("c"));
+            Console.WriteLine("you sold {0} cups of lemonade today for {1}, used {2} of ingredients, and netted {3} ", cupssold, daysProfit.ToString("c"),dayscost.ToString("c"), (daysProfit-dayscost).ToString("c"));
 
         }
         public static void CopCaught(string cop, string robber)
@@ -454,7 +499,17 @@ namespace LemonadeStand
         public static void AIdentify(Player player)
         {
             Console.WriteLine("today {0} sold lemonade.", player.name);
+        }
+        public static void PressEnter()
+        {
+            Console.WriteLine("press enter to continue");
 
         }
+        public static void Leaderboard(Player finishplayer)
+        {
+            Console.WriteLine("{0} finished the game with {1}", finishplayer.name, finishplayer.wallet.Money.ToString("c"));
+
+        }
+
     }
 }
