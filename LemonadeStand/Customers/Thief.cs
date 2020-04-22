@@ -14,18 +14,23 @@ namespace LemonadeStand.Customers
         {
             type = "theif";
         }
-        public override int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather,bool human)
+        public override int[] BuyLemonade(Player player, Weather weather,bool human)
         {
             int[] output = new int[2] { 0, 0 };
             while (thirst > 0)
             {
-                bool thirsty = LemonadeCraving(recipe, weather, human);
+                bool thirsty = LemonadeCraving(player.recipe, weather, human);
+                if (player.pitcher.cupsLeftInPitcher<1)
+                {
+                    thirsty = player.FillPitcher(human);
+                }
                 if (thirsty)
                 {
-                    money -= recipe.pricePerCup;
+                    player.pitcher.cupsLeftInPitcher--;
+                    money -= player.recipe.pricePerCup;
                     if (money > 0)
                     {
-                        wallet.Money = recipe.pricePerCup;
+                        player.wallet.Money = player.recipe.pricePerCup;
                     }
                     thirst -= 80;
                     output[0]++;

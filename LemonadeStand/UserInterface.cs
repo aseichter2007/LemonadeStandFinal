@@ -234,7 +234,7 @@ namespace LemonadeStand
         }
         static bool InputSanitizer(string input, int length)
         {
-            string bad = "ABCDEFGHIJKLMNOPQRSTUVWKYZ";
+            string bad = "ABCDEFGHIJKLMNOPQRSTUVWKYZ'><, `~!@#$%^&*()_+=?/";
             char[] badCharachters = bad.ToLower().ToCharArray();
             bool output = true;
             foreach (char c in badCharachters)
@@ -469,7 +469,7 @@ namespace LemonadeStand
 
         public static void CustomersDrink(int bought, Customer customer)
         {
-            Console.WriteLine("{0} wants to buy {1} of your lemonade.", customer.name, bought);
+            Console.WriteLine("{0} bought {1} of your lemonade.", customer.name, bought);
         }
         public static void DoesntLike(string name)
         {
@@ -481,7 +481,7 @@ namespace LemonadeStand
         }
         public static void SoldToday(double daysProfit,double dayscost,int cupssold)
         {
-            Console.WriteLine("you sold {0} cups of lemonade today for {1}, used {2} of ingredients, and netted {3} ", cupssold, daysProfit.ToString("c"),dayscost.ToString("c"), (daysProfit-dayscost).ToString("c"));
+            Console.WriteLine("you sold {0} cups of lemonade today for {1}, used {2} of ingredients, and for a difference of {3} ", cupssold, daysProfit.ToString("c"),dayscost.ToString("c"), (daysProfit-dayscost).ToString("c"));
 
         }
         public static void CopCaught(string cop, string robber)

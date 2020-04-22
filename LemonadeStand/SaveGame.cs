@@ -112,7 +112,7 @@ namespace LemonadeStand
                         price = double.Parse(streamReader.ReadLine());
 
                         player.name = name;
-                        player.wallet.Money -= 20;
+                        player.wallet.PayMoneyForItems(20);
                         player.wallet.Money = money;
                         player.wallet.totalProfit = totalprofit;
                         player.currentday = currentday;

@@ -22,7 +22,7 @@ namespace LemonadeStand
             recipe.amountOfIceCubes=random.Next(8);
             recipe.amountOfLemons=random.Next(8);
             recipe.amountOfSugarCubes=random.Next(8);
-            recipe.pricePerCup=random.NextDouble()/3;
+            recipe.pricePerCup=random.NextDouble()/2;
             store.SelltoAI(player,random);
         }
 

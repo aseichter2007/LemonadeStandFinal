@@ -91,7 +91,7 @@ namespace LemonadeStand
                 player.AITurn(random, store, player);
                 UserInterface.AIdentify(player);
             }
-            double daysProfit = CustomersDrink(player.wallet, days[currentDay], player.recipe, player.human);
+            double daysProfit = CustomersDrink(player, days[currentDay], player.human);
             //player.wallet.Money = daysProfit;  legacy.
             IceMelts(player);
             UserInterface.PressEnter();
@@ -104,67 +104,51 @@ namespace LemonadeStand
             UserInterface.IceMelts(player);
             player.inventory.iceCubes.Clear();
         }
-        double CustomersDrink(Wallet wallet, Day day, Recipe recipe, bool human)
+        double CustomersDrink(Player player, Day day, bool human)
         {
             double daysPofit = 0;
             bool breaker = false;
             int cupssold = 0;
             int pitchersMade = 0;
+            int[] startinventory = DayStartInventory(player.inventory);
             foreach (Customer customer in day.customers)
             {
-                int[] bought = customer.BuyLemonade(wallet, recipe, day.weather, human);
+                int[] bought = customer.BuyLemonade(player, day.weather, human);
                 UserInterface.CustomersDrink(bought[0], customer);
                 for (int i = 0; i < bought[0]; i++)
-                {
-                    if (player.pitcher.cupsLeftInPitcher > 0)
-                    {
-                        player.pitcher.cupsLeftInPitcher--;
-                        daysPofit += recipe.pricePerCup;
+                {                    
+                        daysPofit += player.recipe.pricePerCup;
                         cupssold++;
-                    }
-                    else
+                }
+                if (human && bought[1] == 1)
+                {
+                    foreach (Customer customer1 in day.customers)
                     {
-                        bool haveIngredients = player.FillPitcher(human);
-                        if (haveIngredients)
+                        if (customer1.type == "cop")
                         {
-                            player.pitcher.cupsLeftInPitcher--;
-                            daysPofit += recipe.pricePerCup;
-                            cupssold++;
-                            pitchersMade++;
-                        }
-                        else
-                        {
-                            if (human)
-                            {
-                                UserInterface.EmptyHanded();
-                            }
-                            breaker = true;
+                            UserInterface.CopCaught(customer1.name, customer.name);
                             break;
                         }
                     }
-
-                    if (human && bought[1] == 1)
-                    {
-                        foreach (Customer customer1 in day.customers)
-                        {
-                            if (customer1.type == "cop")
-                            {
-                                UserInterface.CopCaught(customer1.name, customer.name);
-                                break;
-                            }
-                        }
-                    }
-
                 }
                 if (breaker)
                 {
                     break;
                 }
             }
-            double dayscost = OperatingCost(pitchersMade, recipe);
+            double dayscost = OperatingCost(startinventory, player.inventory);
             UserInterface.SoldToday(daysPofit,dayscost, cupssold);
-            wallet.totalProfit += daysPofit - dayscost;
+            player.wallet.totalProfit += daysPofit - dayscost;
             return daysPofit;
+        }
+        int[] DayStartInventory(Inventory inventory)
+        {
+            int lemons = inventory.lemons.Count;
+            int sugar = inventory.sugarCubes.Count;
+            int cups = inventory.cups.Count;
+            int ice = inventory.iceCubes.Count;
+            int[] output = new int[4] { lemons, sugar, cups, ice };
+            return output;
         }
         void GenerateDays(Random random, int difficulty, int duration)
         {
@@ -174,13 +158,13 @@ namespace LemonadeStand
                 days.Add(day);
             }
         }
-        double OperatingCost(int pitchers, Recipe recipe)
+        double OperatingCost(int [] startinventory, Inventory inventory)
         {
             double output = 0;
-            output += pitchers * recipe.amountOfLemons * store.Lemon;
-            output += pitchers * recipe.amountOfIceCubes *10 * store.Ice;
-            output += pitchers * recipe.amountOfSugarCubes * store.Sugar;
-            output += pitchers * 10 * store.Cup;
+            output += (startinventory[0] - inventory.lemons.Count) * store.Lemon;
+            output += (startinventory[1] - inventory.lemons.Count)* store.Sugar;
+            output += (startinventory[2] - inventory.cups.Count) * store.Cup; ;
+            output += (startinventory[3] - inventory.iceCubes.Count) * store.Ice;
             return output;
 
 

@@ -16,7 +16,7 @@ namespace LemonadeStand.Customers
             name = "a duck";
             type = "duck";
         }
-        public override int[] BuyLemonade(Wallet wallet,Recipe recipe,Weather weather,bool human)
+        public override int[] BuyLemonade(Player player,Weather weather,bool human)
         {
             int[] output = new int[] { 0, 0 };
             if (human)

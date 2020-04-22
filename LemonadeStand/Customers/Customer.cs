@@ -64,16 +64,21 @@ namespace LemonadeStand.Customers
             double output = random.Next(0, 10);
             return output;
         }
-        public virtual int[] BuyLemonade(Wallet wallet, Recipe recipe, Weather weather,bool human)
+        public virtual int[] BuyLemonade(Player player, Weather weather,bool human)
         {
             int [] output = new int[2] { 0, 0 };
-            while (money > recipe.pricePerCup&&thirst>0)
+            while (money > player.recipe.pricePerCup&&thirst>0)
             {
-                bool thirsty = LemonadeCraving(recipe, weather, human);
+                bool thirsty = LemonadeCraving(player.recipe, weather, human);
+                if (thirsty&&player.pitcher.cupsLeftInPitcher < 1)
+                {
+                    thirsty = player.FillPitcher(human);
+                }
                 if (thirsty)
-                {                    
-                    money -= recipe.pricePerCup;
-                    wallet.Money = recipe.pricePerCup;
+                {
+                    player.pitcher.cupsLeftInPitcher--;
+                    money -= player.recipe.pricePerCup;
+                    player.wallet.Money = player.recipe.pricePerCup;
                     thirst -= 80;
                     output[0]++;
                 }
@@ -212,43 +217,43 @@ namespace LemonadeStand.Customers
                 }
             }
 
-            if (recipe.pricePerCup>0.50)
+            if (recipe.pricePerCup>0.60)
             {
                 flavor -= 9;
             }
-            else if (recipe.pricePerCup>0.45)
+            else if (recipe.pricePerCup>0.55)
             {
                 flavor -= 7;
             }
-            else if (recipe.pricePerCup>0.40)
+            else if (recipe.pricePerCup>0.50)
             {
                 flavor -= 5;
             }
-            else if (recipe.pricePerCup>0.35)
+            else if (recipe.pricePerCup>0.45)
             {
                 flavor -= 4;
             }
-            else if (recipe.pricePerCup>0.30)
+            else if (recipe.pricePerCup>0.40)
             {
                 flavor -= 3;
             }
-            else if (recipe.pricePerCup>0.25)
+            else if (recipe.pricePerCup>0.35)
             {
                 flavor -= 2;
             }
-            else if (recipe.pricePerCup>0.20)
+            else if (recipe.pricePerCup>0.30)
             {
                 flavor -= 1;
             }
-            else if (recipe.pricePerCup>0.15)
+            else if (recipe.pricePerCup>0.25)
             {
                 
             }
-            else if (recipe.pricePerCup>0.10)
+            else if (recipe.pricePerCup>0.20)
             {
                 flavor += 1;
             }
-            else if (recipe.pricePerCup>0.05)
+            else if (recipe.pricePerCup>0.15)
             {
                 flavor += 2;
             }
