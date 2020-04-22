@@ -144,7 +144,6 @@ namespace LemonadeStand
             bool stay = true;
             do
             {
-                Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Choose difficulty. 3=easy, 2=medium, 1=hard.");

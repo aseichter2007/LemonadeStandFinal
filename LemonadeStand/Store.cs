@@ -104,9 +104,24 @@ namespace LemonadeStand
             int count;
             do
             {
-                if (!lemon)
+                if (!ice|| player.inventory.cups.Count>25)
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 40), pricePerLemon);
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(20, 200), pricePerIceCube);
+                    if (player.wallet.Money >= transactionAmount)
+                    {
+                        player.wallet.PayMoneyForItems(transactionAmount);
+                        player.inventory.AddIceCubesToInventory(count);
+                        ice = true;
+                    }
+                }
+                else
+                {
+                    ice = true;
+                }
+
+                if (!lemon||player.inventory.lemons.Count>25)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerLemon);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
@@ -114,38 +129,58 @@ namespace LemonadeStand
                         lemon = true;
                     }
                 }
-                if (!sugar)
+                else
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 40), pricePerSugarCube);
+                    lemon = true;
+                }
+                if (!sugar||player.inventory.sugarCubes.Count>25)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerSugarCube);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
                         player.inventory.AddSugarCubesToInventory(count);
-                        lemon = true;
+                        sugar = true;
                     }
                 }
-                if (!cups)
+                else
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 100), pricePerCup);
+                    sugar = true;
+                }
+                
+                if (!cups || player.inventory.cups.Count > 25)
+                {
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 50), pricePerCup);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
                         player.inventory.AddCupsToInventory(count);
-                        lemon = true;
+                        cups = true;
                     }
                 }
-                if (!ice)
+                else
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(1, 200), pricePerCup);
-                    if (player.wallet.Money >= transactionAmount)
-                    {
-                        player.wallet.PayMoneyForItems(transactionAmount);
-                        player.inventory.AddCupsToInventory(count);
-                        lemon = true;
-                    }
+                    cups = true;
                 }
-            } while (!lemon&&!sugar&&!cups&&!ice);
+                if (player.wallet.Money <pricePerLemon)
+                {
+                    lemon = true;
+                }
+                if (player.wallet.Money < pricePerIceCube)
+                {
+                    ice = true;
+                }
+                if (player.wallet.Money < pricePerCup)
+                {
+                    cups = true;
+                }
+                if (player.wallet.Money < pricePerSugarCube)
+                {
+                    sugar = true;
+                }
+                
+            } while ((!lemon)&&(!sugar)&&(!cups)&&(!ice));
             
-}
+        }
     }
 }

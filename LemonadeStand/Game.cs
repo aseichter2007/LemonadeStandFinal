@@ -7,6 +7,7 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LemonadeStand
 {
@@ -35,10 +36,18 @@ namespace LemonadeStand
             {
                 foreach (Player gameplayer in PlayerList)
                 {
-                    Turn(player);
+                    Turn(gameplayer);
                 }
                 currentDay++;
-            } while (currentDay<+duration);
+            } while (currentDay<=duration);
+            LeaderBoard();
+        }
+        void LeaderBoard()
+        {
+            foreach (Player finishplayer in PlayerList)
+            {
+                Console.WriteLine("{0} finished the game with {1}",finishplayer.name,finishplayer.wallet.Money.ToString("c"));
+            }
         }
         void GameSetup()
         {
@@ -58,6 +67,7 @@ namespace LemonadeStand
             {
                 player = new AI();
                 player.name = days[0].customers[0].GetName(random);
+                PlayerList.Add(player);
             }           
             
         }
@@ -83,7 +93,7 @@ namespace LemonadeStand
         }
         void IceMelts(Player player)
         {
-            Console.WriteLine(player.inventory.iceCubes.Count + "melted");
+            Console.WriteLine(player.inventory.iceCubes.Count + " ice cubes melted in your cooler. ");
             player.inventory.iceCubes.Clear();
         }
         double CustomersDrink(Day day, Recipe recipe, bool human)

@@ -12,10 +12,7 @@ namespace LemonadeStand
         {
             setAI();
         }
-
-
-
-           public void setAI()
+        public void setAI()
         {
             human = false;
             difficulty = 3;
@@ -25,13 +22,8 @@ namespace LemonadeStand
             recipe.amountOfIceCubes=random.Next(10);
             recipe.amountOfLemons=random.Next(10);
             recipe.amountOfSugarCubes=random.Next(10);
-            recipe.pricePerCup=random.NextDouble();
+            recipe.pricePerCup=random.NextDouble()/3;
             store.SelltoAI(player,random);
-
-
-
-
-
         }
 
     }
