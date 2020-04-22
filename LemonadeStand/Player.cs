@@ -62,7 +62,7 @@ namespace LemonadeStand
                     Console.WriteLine("You ran out of ice Cubes.");
                 }
 
-                if (inventory.cups.Count <= 11)
+                if (inventory.cups.Count < 11)
                 {
                     Console.WriteLine("You ran out of cups.");
                 }

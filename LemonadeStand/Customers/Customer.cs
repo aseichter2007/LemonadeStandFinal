@@ -80,7 +80,7 @@ namespace LemonadeStand.Customers
             bool buyADrink = craving > 200;
             if (human&&flavor==0)
             {
-                Console.WriteLine(name + " doesn't like your lemonade.");
+                UserInterface.DoesntLike(name);                
             }
             return buyADrink;
         }

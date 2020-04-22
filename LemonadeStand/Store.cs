@@ -106,7 +106,7 @@ namespace LemonadeStand
             {
                 if (!ice)
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(20, 200), pricePerIceCube);
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(20, 100), pricePerIceCube);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
@@ -118,7 +118,7 @@ namespace LemonadeStand
 
                 if (!lemon||player.inventory.lemons.Count>30)
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerLemon);
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(6, 20), pricePerLemon);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
@@ -132,7 +132,7 @@ namespace LemonadeStand
                 }
                 if (!sugar||player.inventory.sugarCubes.Count>30)
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerSugarCube);
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(6, 30), pricePerSugarCube);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);
@@ -147,7 +147,7 @@ namespace LemonadeStand
                 
                 if (!cups || player.inventory.cups.Count > 30)
                 {
-                    double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 50), pricePerCup);
+                    double transactionAmount = CalculateTransactionAmount(count = random.Next(6, 50), pricePerCup);
                     if (player.wallet.Money >= transactionAmount)
                     {
                         player.wallet.PayMoneyForItems(transactionAmount);

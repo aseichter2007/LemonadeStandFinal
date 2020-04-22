@@ -74,6 +74,7 @@ namespace LemonadeStand
 
         void Turn(Player player)
         {
+
             if (player.human)
             {
              UserInterface.BetweenDayStatusChoice(player, 0, days[currentDay], store);
@@ -81,10 +82,10 @@ namespace LemonadeStand
             else
             {
                 player.AITurn(random,store,player);
-            }           
+                UserInterface.AIdentify(player);
+            }
             double daysProfit =CustomersDrink(days[currentDay], player.recipe,player.human);
-            player.wallet.Money = daysProfit;
-            Console.WriteLine("today {1} made {0}", daysProfit.ToString("c"),player.name);
+            //player.wallet.Money = daysProfit;
             IceMelts(player);
             Console.WriteLine("press enter to continue");
             Console.ReadLine();
@@ -93,13 +94,14 @@ namespace LemonadeStand
         }
         void IceMelts(Player player)
         {
-            Console.WriteLine(player.inventory.iceCubes.Count + " ice cubes melted in your cooler. ");
+            UserInterface.IceMelts(player);
             player.inventory.iceCubes.Clear();
         }
         double CustomersDrink(Day day, Recipe recipe, bool human)
         {
             double daysPofit = 0;
             bool breaker = false;
+            int cupssold = 0;
             foreach (Customer customer in day.customers)
             {                
                     int[] bought = customer.BuyLemonade(player.wallet, recipe, day.weather, human);
@@ -110,6 +112,7 @@ namespace LemonadeStand
                     {
                         player.pitcher.cupsLeftInPitcher--;
                         daysPofit += recipe.pricePerCup;
+                        cupssold++;
                     }
                     else
                     {
@@ -118,12 +121,13 @@ namespace LemonadeStand
                         {
                             player.pitcher.cupsLeftInPitcher--;
                             daysPofit += recipe.pricePerCup;
+                            cupssold++;
                         }
                         else
                         {
                             if (human)
                             {
-                                Console.WriteLine("the other customers went home empty handed.");
+                                UserInterface.EmptyHanded();
                             }
                             breaker = true;
                             break;
@@ -136,7 +140,7 @@ namespace LemonadeStand
                         {
                             if (customer1.type=="cop")
                             {
-                                Console.WriteLine(customer1.name + " caught " + customer.name + " stealing and took him to jail.");
+                                UserInterface.CopCaught(customer1.name, customer.name);
                                 break;
                             }
                         }
@@ -148,6 +152,7 @@ namespace LemonadeStand
                     break;
                 }
             }
+            UserInterface.SoldToday(daysPofit, cupssold);
             return daysPofit;
         }
         void GenerateDays(Random random, int difficulty, int duration)

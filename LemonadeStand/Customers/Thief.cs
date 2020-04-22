@@ -23,7 +23,10 @@ namespace LemonadeStand.Customers
                 if (thirsty)
                 {
                     money -= recipe.pricePerCup;
-                    wallet.Money = recipe.pricePerCup;
+                    if (money > 0)
+                    {
+                        wallet.Money = recipe.pricePerCup;
+                    }
                     thirst -= 80;
                     output[0]++;
                     if (money<0)

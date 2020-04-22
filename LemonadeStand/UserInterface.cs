@@ -426,5 +426,35 @@ namespace LemonadeStand
             Console.ReadLine();
             Console.Clear();
         }
+        public static void DoesntLike(string name)
+        {
+            Console.WriteLine(name + " doesn't like your lemonade.");
+        }
+        public static void WaddleWaddle(string name)
+        {
+            Console.WriteLine(name + " asked if you have any grapes.");
+        }
+        public static void SoldToday(double daysProfit,int cupssold)
+        {
+            Console.WriteLine(" sold {0} cups of lemonade today. and made {1}", cupssold, daysProfit.ToString("c"));
+
+        }
+        public static void CopCaught(string cop, string robber)
+        {
+            Console.WriteLine(cop + " caught " + robber+ " stealing and took him to jail.");
+        }
+        public static void EmptyHanded()
+        {
+            Console.WriteLine("the other customers went home empty handed.");
+        }
+        public static void IceMelts(Player player)
+        {
+            Console.WriteLine(player.inventory.iceCubes.Count + " ice cubes melted in your cooler. ");
+        }
+        public static void AIdentify(Player player)
+        {
+            Console.WriteLine("today {0} sold lemonade.", player.name);
+
+        }
     }
 }

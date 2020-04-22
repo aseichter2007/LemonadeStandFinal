@@ -19,9 +19,9 @@ namespace LemonadeStand
         }
         public override void AITurn(Random random,Store store, Player player)
         {
-            recipe.amountOfIceCubes=random.Next(10);
-            recipe.amountOfLemons=random.Next(10);
-            recipe.amountOfSugarCubes=random.Next(10);
+            recipe.amountOfIceCubes=random.Next(8);
+            recipe.amountOfLemons=random.Next(8);
+            recipe.amountOfSugarCubes=random.Next(8);
             recipe.pricePerCup=random.NextDouble()/3;
             store.SelltoAI(player,random);
         }

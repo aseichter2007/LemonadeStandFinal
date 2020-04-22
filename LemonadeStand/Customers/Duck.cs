@@ -21,7 +21,7 @@ namespace LemonadeStand.Customers
             int[] output = new int[] { 0, 0 };
             if (human)
             {
-                Console.WriteLine(name + " asked if you have any grapes.");
+                UserInterface.WaddleWaddle(name);
             }
             return output;
         }
