@@ -104,7 +104,7 @@ namespace LemonadeStand
             int count;
             do
             {
-                if (!ice|| player.inventory.cups.Count>25)
+                if (!ice)
                 {
                     double transactionAmount = CalculateTransactionAmount(count = random.Next(20, 200), pricePerIceCube);
                     if (player.wallet.Money >= transactionAmount)
@@ -114,12 +114,9 @@ namespace LemonadeStand
                         ice = true;
                     }
                 }
-                else
-                {
-                    ice = true;
-                }
+                
 
-                if (!lemon||player.inventory.lemons.Count>25)
+                if (!lemon||player.inventory.lemons.Count>30)
                 {
                     double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerLemon);
                     if (player.wallet.Money >= transactionAmount)
@@ -133,7 +130,7 @@ namespace LemonadeStand
                 {
                     lemon = true;
                 }
-                if (!sugar||player.inventory.sugarCubes.Count>25)
+                if (!sugar||player.inventory.sugarCubes.Count>30)
                 {
                     double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 30), pricePerSugarCube);
                     if (player.wallet.Money >= transactionAmount)
@@ -148,7 +145,7 @@ namespace LemonadeStand
                     sugar = true;
                 }
                 
-                if (!cups || player.inventory.cups.Count > 25)
+                if (!cups || player.inventory.cups.Count > 30)
                 {
                     double transactionAmount = CalculateTransactionAmount(count = random.Next(10, 50), pricePerCup);
                     if (player.wallet.Money >= transactionAmount)
@@ -162,23 +159,34 @@ namespace LemonadeStand
                 {
                     cups = true;
                 }
+
                 if (player.wallet.Money <pricePerLemon)
                 {
                     lemon = true;
+                    player.wallet.Money = 1.50;
+                    player.inventory.AddLemonsToInventory(3);
                 }
                 if (player.wallet.Money < pricePerIceCube)
                 {
                     ice = true;
+                    player.wallet.Money = 1.50;
+                    player.inventory.AddIceCubesToInventory(20);
+
                 }
                 if (player.wallet.Money < pricePerCup)
                 {
                     cups = true;
+                    player.wallet.Money = 1.50;
+                    player.inventory.AddCupsToInventory(5);
+
                 }
                 if (player.wallet.Money < pricePerSugarCube)
                 {
                     sugar = true;
+                    player.wallet.Money = 1.50;
+                    player.inventory.AddSugarCubesToInventory(5);
                 }
-                
+
             } while ((!lemon)&&(!sugar)&&(!cups)&&(!ice));
             
         }

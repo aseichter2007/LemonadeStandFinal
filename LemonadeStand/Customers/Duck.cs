@@ -19,7 +19,10 @@ namespace LemonadeStand.Customers
         public override int[] BuyLemonade(Wallet wallet,Recipe recipe,Weather weather,bool human)
         {
             int[] output = new int[] { 0, 0 };
-            Console.WriteLine(name + " asked if you have any grapes.");
+            if (human)
+            {
+                Console.WriteLine(name + " asked if you have any grapes.");
+            }
             return output;
         }
     }
