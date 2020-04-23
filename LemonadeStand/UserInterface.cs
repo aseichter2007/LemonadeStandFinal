@@ -234,7 +234,7 @@ namespace LemonadeStand
         }
         static bool InputSanitizer(string input, int length)
         {
-            string bad = "ABCDEFGHIJKLMNOPQRSTUVWKYZ'><, `~!@#$%^&*()_+=?/";
+            string bad = "ABCDEFGHIJKLMNOPQRSTUVWKYZ'><,`~!@#$%^&*()_+=?/";
             char[] badCharachters = bad.ToLower().ToCharArray();
             bool output = true;
             foreach (char c in badCharachters)
