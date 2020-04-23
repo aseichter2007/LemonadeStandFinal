@@ -19,17 +19,12 @@ namespace LemonadeStand
 
         //full disclosure: my little brother and I cludged this together from a few stackoverflow questions
         //for use on his website last sunday.
-        //it uses the same s3 as that website, he made it for free so I figure taking a few liberties 
-        //wont have any repercussions.  Just dont pass this file out to all your friends.
-        //oh dang these keys are in my public github repo now. I will have to make new ones eventually.
         //this is the dirty hack version, the access keys should be in the app.config 
-        //and app.config should be added to gitignore, buuuuutt its not that hard to fix the other app with new keys.
-        //if I was actually smart I would have made new keys for this, but its in the repo now.
-        //I should probably do that quick.
+        //and app.config should be added to gitignore.
         public bool sendMyFileToS3(string localFilePath, string bucketName, string subDirectoryInBucket, string fileNameInS3)
         {
-            string accessKey = "AKIA3S2GSEJKHBBZZB3Z";
-            string secretKey = "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";
+            string accessKey = "AKIAWXS64BGGY47QHRWQ";
+            string secretKey = "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";
             AmazonS3Client client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.USEast2);
             // input explained :
             // localFilePath = the full local file path e.g. "c:\mydir\mysubdir\myfilename.zip"
@@ -69,8 +64,8 @@ namespace LemonadeStand
         }
         public Stream getMyFilesFromS3(string bucketName, string subDirectoryInBucket, string fileNameInS3)
         {
-            string accessKey = "AKIA3S2GSEJKHBBZZB3Z";
-            string secretKey = "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";
+            string accessKey = "AKIAWXS64BGGY47QHRWQ";
+            string secretKey = "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";
             AmazonS3Client client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.USEast2);
             // input explained :
             // localFilePath = the full local file path e.g. "c:\mydir\mysubdir\myfilename.zip"

@@ -41,7 +41,7 @@ namespace LemonadeStand
 
             AmazonUpload amazonUpload = new AmazonUpload();
 
-                Stream stream = amazonUpload.getMyFilesFromS3("elasticbeanstalk-us-east-2-796327551572", "etc", "save.txt");
+                Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
                 StreamReader streamReader = new StreamReader(stream);
                 while ((line = streamReader.ReadLine()) != null)
                 {
@@ -102,7 +102,7 @@ namespace LemonadeStand
             //commented for amazon s3 funtionality
             //StreamReader streamReader = new StreamReader(currentDirectory + "/save.txt");
             AmazonUpload amazonUpload = new AmazonUpload();
-            Stream stream = amazonUpload.getMyFilesFromS3("elasticbeanstalk-us-east-2-796327551572", "etc", "save.txt");
+            Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
             StreamReader streamReader = new StreamReader(stream);
             while ((line = streamReader.ReadLine()) != null)
             {
@@ -181,7 +181,7 @@ namespace LemonadeStand
             }
             filestream.Close();
             AmazonUpload amazonUpload = new AmazonUpload();
-            amazonUpload.sendMyFileToS3(currentDirectory + "\\save.txt", "elasticbeanstalk-us-east-2-796327551572", "etc", "save.txt");
+            amazonUpload.sendMyFileToS3(currentDirectory + "\\save.txt", "aseichter", "etc", "save.txt");
 
         }
     }
