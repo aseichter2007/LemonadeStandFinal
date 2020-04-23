@@ -33,16 +33,16 @@ namespace LemonadeStand
             string line;
             bool load=false;
             string currentDirectory = Directory.GetCurrentDirectory();
-            //if (File.Exists(currentDirectory + "\\save.txt"))
-            //{
-            //StreamReader streamReader = new StreamReader(currentDirectory + "\\save.txt");
+            if (File.Exists(currentDirectory + "\\save.txt"))
+            {
+            StreamReader streamReader = new StreamReader(currentDirectory + "\\save.txt");
 
-            //commented for amazon s3 funtionality
+            //commented amazon s3 funtionality
 
-            AmazonUpload amazonUpload = new AmazonUpload();
+            //AmazonUpload amazonUpload = new AmazonUpload();
 
-                Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
-                StreamReader streamReader = new StreamReader(stream);
+            // Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
+            // StreamReader streamReader = new StreamReader(stream);
                 while ((line = streamReader.ReadLine()) != null)
                 {
                     if (line.Contains("username==" + player.name))
@@ -69,11 +69,11 @@ namespace LemonadeStand
                     }
 
                 }
-                stream.Close();
+               // stream.Close();
                 streamReader.Close();
                 
 
-           // }
+            }
 
             if (load)
             {
@@ -99,11 +99,11 @@ namespace LemonadeStand
             string line;
             string currentDirectory = Directory.GetCurrentDirectory();
 
-            //commented for amazon s3 funtionality
-            //StreamReader streamReader = new StreamReader(currentDirectory + "/save.txt");
-            AmazonUpload amazonUpload = new AmazonUpload();
-            Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
-            StreamReader streamReader = new StreamReader(stream);
+            //commented amazon s3 funtionality
+            StreamReader streamReader = new StreamReader(currentDirectory + "/save.txt");
+            //AmazonUpload amazonUpload = new AmazonUpload();
+            //Stream stream = amazonUpload.getMyFilesFromS3("aseichter", "etc", "save.txt");
+            //StreamReader streamReader = new StreamReader(stream);
             while ((line = streamReader.ReadLine()) != null)
             {
                 if (line.Contains("username=="))
@@ -142,7 +142,7 @@ namespace LemonadeStand
                     }
                 }
             }
-            stream.Close();
+           // stream.Close();
             streamReader.Close();
             playerlist.Add(saveplayer);
         }
@@ -150,16 +150,15 @@ namespace LemonadeStand
         public static void SavePlayer(Player saveplayer,int currentday, int duration, int difficulty)
         {
             string currentDirectory = Directory.GetCurrentDirectory();
-            //if (File.Exists(currentDirectory + "\\save.txt"))
-            //{
+            if (File.Exists(currentDirectory + "\\save.txt"))
+            {
                 Preservesaves(saveplayer);
-            //}
-            //commented for amazon s3 funtionality
-            //else
-            //{
-            //    playerlist = new List<Player>();
-            //    playerlist.Add(saveplayer);
-            //}
+            }
+            else
+            {
+                playerlist = new List<Player>();
+                playerlist.Add(saveplayer);
+            }
             StreamWriter filestream= new StreamWriter(currentDirectory+"\\save.txt",false);
 
             foreach (Player player in playerlist)
@@ -180,8 +179,10 @@ namespace LemonadeStand
                 filestream.WriteLine(player.recipe.pricePerCup);
             }
             filestream.Close();
-            AmazonUpload amazonUpload = new AmazonUpload();
-            amazonUpload.sendMyFileToS3(currentDirectory + "\\save.txt", "aseichter", "etc", "save.txt");
+            //commented for amazon s3 funtionality
+
+            //AmazonUpload amazonUpload = new AmazonUpload();
+            //amazonUpload.sendMyFileToS3(currentDirectory + "\\save.txt", "aseichter", "etc", "save.txt");
 
         }
     }
